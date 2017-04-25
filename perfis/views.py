@@ -2,12 +2,19 @@ from django.shortcuts import render
 from perfis.models import Perfil
 
 def index(request):
-	return render(request, 'index.html')
+	return render(request, 'index.html', {'perfis' : Perfil.objects.all()})
 
 def exibir(request, perfil_id):
-	perfil = Perfil()
+	perfil = Perfil.objects.get(id=perfil_id)
 
-	if perfil_id == '1':
-		perfil = Perfil('Bianca Aranes', 'biancaarantes28@gmail.com', '42342','NIC.br')
+	
 	return render(request, 'perfil.html', { "perfil" : perfil })
-# Create your views here.
+
+def convidar(request, perfil_id):
+	perfil_a_convidar = Perfil.objects.get(id=perfil_id)
+	perfil_logado = get_perfil_logado(request)
+	perfil_logado.convidar(perfil_a_convidar)
+	return render(request, 'index.html', {'perfis' : Perfil.objects.all()})
+	
+def get_perfil_logado(request):
+	return Perfil.objects.get(id=1)
