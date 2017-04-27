@@ -9,10 +9,10 @@ class Perfil(models.Model):
 
 
 	def convidar(self, perfil_convidado):
-		pass
+		convite = Convite(solicitante = self, convidado = perfil_convidado).save()
 
 class Convite(models.Model):
 
-	solicitante = models.ForeignKey(Perfil)
-	convidado = models.ForeignKey(Perfil)
+	solicitante = models.ForeignKey(Perfil, related_name='convites_feitos')
+	convidado = models.ForeignKey(Perfil, related_name='convites_recebidos')
 
